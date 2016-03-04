@@ -44,3 +44,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # authentication
 gem 'jwt'
+
+# model logic
+gem 'rolify'
+gem 'pundit'
