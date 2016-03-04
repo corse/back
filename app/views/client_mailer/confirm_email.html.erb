@@ -1,0 +1,5 @@
+<h1>Dear, <%= @client.email %></h1>
+<p>
+  Please click the following link to confirm your email address:
+  <%= link_to 'confirm email', @callback_url %> .
+</p>
