@@ -1,3 +1,4 @@
+# Profile Authorization
 class ProfilePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve

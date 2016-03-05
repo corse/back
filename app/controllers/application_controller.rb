@@ -16,17 +16,15 @@ class ApplicationController < ActionController::API
            status: :unprocessable_entity
   end
 
-  def not_authorized
+  def not_authorized(e)
     render json: { errors: [{ id: 'NotAuthorized' }] }, status: :unauthorized
+  end
+
+  def render_error(name, status)
+    render json: { errors: [{ id: name }] }, status: status
   end
 
   def current_client
     @current_client ||= Client.find_by_jwt request.headers['X-Jwt']
-  end
-
-  def authenticate
-    unless current_client
-      render json: { errors: [{ id: 'unauthorized' }] }, status: :unauthorized
-    end
   end
 end

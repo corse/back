@@ -11,5 +11,6 @@
 
 # Profile Model
 class Profile < ApplicationRecord
+  include Rolify
   belongs_to :client
 end

@@ -18,6 +18,7 @@
 # Client Model
 class Client < ApplicationRecord
   include Confirmable
+  include Rolify
   has_secure_password
   attr_writer :payload
   before_create :generate_cid
