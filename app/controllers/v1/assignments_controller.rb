@@ -1,9 +1,7 @@
 module V1
   # Assignment REST JSON API
   class AssignmentsController < ApplicationController
-    prepend_before_action :set_resource, only: [:show, :update, :destroy]
-    prepend_before_action :new_resource, only: [:create]
-    before_action :auth_resource, except: [:index]
+    before_action :set_resource, only: [:show, :update, :destroy]
 
     # GET /v1/assignments
     def index
@@ -19,6 +17,9 @@ module V1
 
     # POST /v1/assignments
     def create
+      @assignment = Assignment.new(jsonapi_params)
+      authorize @assignment
+
       if @assignment.save
         render json: @assignment, status: :created
       else
@@ -45,13 +46,6 @@ module V1
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
       @assignment = Assignment.find(params[:id])
-    end
-
-    def new_resource
-      @assignment = Assignment.new(jsonapi_params)
-    end
-
-    def auth_resource
       authorize @assignment
     end
 

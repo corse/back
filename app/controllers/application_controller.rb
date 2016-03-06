@@ -18,7 +18,8 @@ class ApplicationController < ActionController::API
   end
 
   def not_authorized(e)
-    render json: { errors: [{ id: 'NotAuthorized', body: e }] }, status: :unauthorized
+    body = { errors: [{ id: 'NotAuthorized', body: e.inspect }] }
+    render json: body, status: :unauthorized
   end
 
   def auth_failed
@@ -34,7 +35,8 @@ class ApplicationController < ActionController::API
   end
 
   def current_account
-    @current_account ||= Account.find_or_create_by_jwt request.headers['Corse-Account']
+    token = request.headers['Corse-Account']
+    @current_account ||= Account.find_or_create_by_jwt token
   end
 
   def jsonapi_params

@@ -1,9 +1,7 @@
 module V1
   # Client REST JSON API
   class ClientsController < ApplicationController
-    prepend_before_action :set_resource, only: [:show, :update, :destroy]
-    prepend_before_action :new_resource, only: [:create]
-    before_action :auth_resource, except: [:index]
+    before_action :set_resource, only: [:show, :update, :destroy]
 
     # GET /v1/clients
     def index
@@ -21,6 +19,9 @@ module V1
 
     # POST /v1/clients
     def create
+      @client = Client.new(jsonapi_params)
+      authorize @client
+
       if @client.save
         render json: @client, status: :created
       else
@@ -47,13 +48,6 @@ module V1
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
       @client = Client.find(params[:id])
-    end
-
-    def new_resource
-      @client = Client.new(client_params)
-    end
-
-    def auth_resource
       authorize @client
     end
 

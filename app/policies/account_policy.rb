@@ -11,11 +11,8 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def create?
-    if user.class.name == 'Client'
-      user.id == record.client_id
-    else
-      return false
-    end
+    return false unless user.class.name == 'Client'
+    user.id == record.client_id
   end
 
   def update?

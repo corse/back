@@ -1,9 +1,7 @@
 module V1
   # Solution REST JSON API
   class SolutionsController < ApplicationController
-    prepend_before_action :set_resource, only: [:show, :update, :destroy]
-    prepend_before_action :new_resource, only: [:create]
-    before_action :auth_resource, except: [:index]
+    before_action :set_resource, only: [:show, :update, :destroy]
 
     # GET /v1/solutions
     def index
@@ -20,6 +18,7 @@ module V1
     # POST /v1/solutions
     def create
       @solution = Solution.new(jsonapi_params)
+      authorize @solution
 
       if @solution.save
         render json: @solution, status: :created
@@ -47,13 +46,6 @@ module V1
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
       @solution = Solution.find(params[:id])
-    end
-
-    def new_resource
-      @solution = Solution.new(solution_params)
-    end
-
-    def auth_resource
       authorize @solution
     end
 
