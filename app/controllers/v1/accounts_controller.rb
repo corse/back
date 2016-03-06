@@ -5,13 +5,7 @@ module V1
 
     # GET /v1/accounts
     def index
-      @accounts = if current_client
-                    current_client.accounts
-                  elsif current_account
-                    current_account.client.accounts
-                  else
-                    Account.none
-                  end
+      @accounts = AccountPolicy.scope current_client || current_account
 
       render json: @accounts
     end
@@ -24,6 +18,7 @@ module V1
     # POST /v1/accounts
     def create
       @account = Account.new(jsonapi_params)
+      authorize @account
 
       if @account.save
         render json: @account, status: :created
@@ -51,6 +46,7 @@ module V1
     # Use callbacks to share common setup or constraints between actions.
     def set_account
       @account = Account.find(params[:id])
+      authorize @account
     end
 
     # Only allow a trusted parameter "white list" through.
@@ -59,8 +55,8 @@ module V1
             .permit(:client_id, :uid)
     end
 
-    def jsonapi_params
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+    def pundit_user
+      current_client || current_account
     end
   end
 end

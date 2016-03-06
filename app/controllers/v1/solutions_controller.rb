@@ -66,9 +66,5 @@ module V1
       params.fetch(:data, {}).fetch(:attributes, {})
             .permit(:content)
     end
-
-    def jsonapi_params
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
-    end
   end
 end

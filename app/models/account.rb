@@ -16,10 +16,13 @@ class Account < ApplicationRecord
   include Rolify
   belongs_to :client
 
-  def self.init_by_jwt(token)
+  def self.find_or_create_by_jwt(token)
     secret = Rails.application.secrets['secret_key_base']
-    payload = JWT.decode(token, secret, 'HS384')[0]
-    new(uid: payload['uid'].to_i, cid: payload['cid'])
+    payloader = JWT.decode(token, secret, 'HS384')[0]
+    client = Client.find_by cid: payloader['cid']
+    client.accounts.find_or_create_by uid: payloader['uid']
+  rescue JWT::DecodeError
+    nil
   end
 
   def cid

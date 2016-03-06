@@ -15,7 +15,7 @@ module Jwtoken
       payloader = decode_jwt token
       find payloader[0]['id']
     rescue JWT::DecodeError
-      false
+      nil
     end
 
     def decode_jwt(token, key = Rails.application.secrets['secret_key_base'])

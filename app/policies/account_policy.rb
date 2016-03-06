@@ -11,18 +11,29 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    if user.class.name == 'Client'
+      user.id == record.client_id
+    else
+      return false
+    end
   end
 
   def update?
-    true
+    (user == record) || (user == record.client)
   end
 
   def destroy?
-    true
+    user == record.client
   end
 
   def self.scope(user)
-    Account
+    case user.class.to_s
+    when 'Account'
+      user.client.accounts
+    when 'Client'
+      user.accounts
+    else
+      Account.none
+    end
   end
 end

@@ -17,8 +17,8 @@ class ApplicationController < ActionController::API
            status: :unprocessable_entity
   end
 
-  def not_authorized
-    render json: { errors: [{ id: 'NotAuthorized' }] }, status: :unauthorized
+  def not_authorized(e)
+    render json: { errors: [{ id: 'NotAuthorized', body: e }] }, status: :unauthorized
   end
 
   def auth_failed
@@ -34,6 +34,10 @@ class ApplicationController < ActionController::API
   end
 
   def current_account
-    @current_account ||= Account.init_by_jwt request.headers['Corse-Account']
+    @current_account ||= Account.find_or_create_by_jwt request.headers['Corse-Account']
+  end
+
+  def jsonapi_params
+    ActiveModelSerializers::Deserialization.jsonapi_parse(params)
   end
 end
