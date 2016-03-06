@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304205800) do
+ActiveRecord::Schema.define(version: 20160305052027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.integer  "client_id",  null: false
+    t.integer  "uid",        null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "assignments", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.datetime "deadline"
+    t.text     "content"
+    t.integer  "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "assignments", ["course_id"], name: "index_assignments_on_course_id", using: :btree
 
   create_table "clients", force: :cascade do |t|
     t.string   "name",                              null: false
@@ -33,12 +51,15 @@ ActiveRecord::Schema.define(version: 20160304205800) do
   add_index "clients", ["email"], name: "index_clients_on_email", unique: true, using: :btree
   add_index "clients", ["name"], name: "index_clients_on_name", unique: true, using: :btree
 
-  create_table "profiles", force: :cascade do |t|
-    t.integer  "client_id",  null: false
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "courses", force: :cascade do |t|
+    t.string   "name",                   null: false
+    t.integer  "status",     default: 0
+    t.integer  "client_id",              null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
+
+  add_index "courses", ["client_id"], name: "index_courses_on_client_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",          null: false
@@ -50,6 +71,19 @@ ActiveRecord::Schema.define(version: 20160304205800) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "solutions", force: :cascade do |t|
+    t.integer  "assignment_id"
+    t.integer  "account_id"
+    t.text     "content"
+    t.integer  "grade",         default: 0
+    t.datetime "submit_at"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "solutions", ["account_id"], name: "index_solutions_on_account_id", using: :btree
+  add_index "solutions", ["assignment_id"], name: "index_solutions_on_assignment_id", using: :btree
 
   create_table "users_roles", id: false, force: :cascade do |t|
     t.string  "user_type"

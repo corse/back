@@ -1,16 +1,18 @@
 # == Schema Information
 #
-# Table name: profiles
+# Table name: accounts
 #
 #  id         :integer          not null, primary key
 #  client_id  :integer          not null
-#  user_id    :integer          not null
+#  uid        :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-# Profile Model
-class Profile < ApplicationRecord
-  include Rolify
-  belongs_to :client
+require 'test_helper'
+
+class AccountTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
 end

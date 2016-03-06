@@ -1,13 +1,15 @@
 # == Schema Information
 #
-# Table name: roles
+# Table name: solutions
 #
 #  id            :integer          not null, primary key
-#  name          :string           not null
-#  resource_type :string
-#  resource_id   :integer
-#  created_at    :datetime
-#  updated_at    :datetime
+#  assignment_id :integer
+#  account_id    :integer
+#  content       :text
+#  grade         :integer          default(0)
+#  submit_at     :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -17,10 +19,12 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name: admin
-  resource: one
-
-#
+  assignment: one
+  account: one
+  content: hello
+  grade: 100
 two:
-  name: editor
-  resource: one
+  assignment: two
+  account: two
+  content: 2
+  grade: 99

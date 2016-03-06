@@ -72,6 +72,13 @@ module V1
       end
     end
 
+    def signin_client_account
+      client = Client.find_by cid: params[:cid]
+      return render_error('authFailed', :unauthorized) unless client
+      jwt = client.exchange_jwt_with(params[:token])
+      render json: { token: jwt }, token: true
+    end
+
     private
 
     def client_params

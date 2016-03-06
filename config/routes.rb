@@ -4,10 +4,14 @@ Rails.application.routes.draw do
     post 'auth/signup'
     post 'auth/request_confirm'
     post 'auth/request_reset'
-    post  'auth/confirm'
+    post 'auth/confirm'
     post 'auth/reset'
+    post 'auth/signin_client_account'
     resources :clients
-    resources :profiles
+    resources :accounts
+    resources :courses
+    resources :assignments
+    resources :solutions
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

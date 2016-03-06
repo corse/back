@@ -1,13 +1,12 @@
 # == Schema Information
 #
-# Table name: roles
+# Table name: accounts
 #
-#  id            :integer          not null, primary key
-#  name          :string           not null
-#  resource_type :string
-#  resource_id   :integer
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id         :integer          not null, primary key
+#  client_id  :integer          not null
+#  uid        :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -17,10 +16,9 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name: admin
-  resource: one
+  client: one
+  uid: 3
 
-#
 two:
-  name: editor
-  resource: one
+  client: one
+  uid: 31

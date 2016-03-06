@@ -1,10 +1,11 @@
 # == Schema Information
 #
-# Table name: profiles
+# Table name: courses
 #
 #  id         :integer          not null, primary key
+#  name       :string           not null
+#  status     :integer          default(0)
 #  client_id  :integer          not null
-#  user_id    :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -16,9 +17,10 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  name: course 1
+  status: 0
   client: one
-  user_id: 3
-
 two:
-  client: one
-  user_id: 31
+  name: course 2
+  status: 1
+  client: two

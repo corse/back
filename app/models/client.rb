@@ -19,12 +19,14 @@
 class Client < ApplicationRecord
   include Confirmable
   include Rolify
+  include Jwtoken
   has_secure_password
   attr_writer :payload
   before_create :generate_cid
   before_create :generate_secret
   validates :email, uniqueness: true
   validates :name, uniqueness: true
+  has_many :accounts
 
   def generate_cid
     self.cid = SecureRandom.uuid
@@ -38,32 +40,16 @@ class Client < ApplicationRecord
     update password: new_password
   end
 
-  def self.find_by_pw_reset_jwt(token)
-    find_by_jwt token
+  def exchange_jwt_with(token)
+    account = JWT.decode(token, secret, 'HS384')[0]
+    raise JWT::DecodeError unless account['cid'] == cid
+    JWT.encode account, Rails.application.secrets['secret_key_base'], 'HS384'
   end
 
-  def self.find_by_confirmation_jwt(token)
-    find_by_jwt token
-  end
-
-  def self.find_by_jwt(token)
-    payloader = decode_jwt token
-    find payloader[0]['id']
-  rescue JWT::DecodeError
-    false
-  end
-
-  def jwt(hash = payload)
-    secret = Rails.application.secrets['secret_key_base']
-    JWT.encode(hash || payload, secret, 'HS384')
-  end
-
-  def self.decode_jwt(token)
-    secret = Rails.application.secrets['secret_key_base']
-    JWT.decode(token, secret, 'HS384')
-  end
-
-  def payload
-    @payload ||= { id: id, email: email, exp: (Time.zone.now + 1.week).to_i }
+  def default_payload
+    load = { id: id, email: email }
+    load[:aud] = Rails.application.secrets['default_url_options']['host']
+    load[:exp] = Time.zone.now.weeks_ago(-1).to_i
+    load
   end
 end
