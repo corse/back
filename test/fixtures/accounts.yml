@@ -20,5 +20,5 @@ one:
   uid: 3
 
 two:
-  client: one
+  client: two
   uid: 31

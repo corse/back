@@ -13,12 +13,12 @@ module V1
       @account_headers = { 'corse-account' => @account.jwt }
     end
 
-    test 'should get index' do
+    test 'account should get index' do
       get v1_assignments_url, headers:  @account_headers
       assert_response :success
     end
 
-    test 'should create assignment' do
+    test 'teacher should create assignment' do
       assert_difference('Assignment.count') do
         opts = { params: @assign_params, headers:  @account_headers }
         post v1_assignments_url, opts
@@ -27,18 +27,24 @@ module V1
       assert_response 201
     end
 
-    test 'should show assignment' do
+    test 'account should show assignment' do
       get v1_assignment_url(@assignment), headers:  @account_headers
       assert_response :success
     end
 
-    test 'should update assignment' do
+    test 'teacher should update assignment' do
       opts = { params: @assign_params, headers:  @account_headers }
       patch v1_assignment_url(@assignment), opts
       assert_response 200
     end
 
-    test 'should destroy assignment' do
+    test 'account should not update assignment' do
+    end
+
+    test 'account should not destroy assignment' do
+    end
+
+    test 'teacher should destroy assignment' do
       assert_difference('Assignment.count', -1) do
         delete v1_assignment_url(@assignment), headers:  @account_headers
       end

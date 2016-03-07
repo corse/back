@@ -13,4 +13,5 @@
 class AccountSerializer < ActiveModel::Serializer
   attributes :uid
   belongs_to :client
+  has_many :roles
 end

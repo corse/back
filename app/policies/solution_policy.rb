@@ -15,10 +15,10 @@ class SolutionPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    record.submit_at.nil?
   end
 
   def destroy?
-    true
+    record.submit_at.nil?
   end
 end

@@ -5,7 +5,7 @@ module V1
 
     # GET /v1/courses
     def index
-      @courses = Course.all
+      @courses = CoursePolicy.scope(pundit_user)
 
       render json: @courses
     end
@@ -18,7 +18,7 @@ module V1
     # POST /v1/courses
     def create
       @course = Course.new(jsonapi_params)
-      authorize @course
+      raise Pundit::NotAuthorizedError unless check_nonce
 
       if @course.save
         render json: @course, status: :created
@@ -50,7 +50,14 @@ module V1
     end
 
     def pundit_user
-      current_account
+      current_client || current_account
+    end
+
+    def check_nonce
+      return true if current_client
+      return false unless current_account
+      nonce = request.headers['Corse-Nonce']
+      @course.auth(nonce, current_account)
     end
 
     # Only allow a trusted parameter "white list" through.

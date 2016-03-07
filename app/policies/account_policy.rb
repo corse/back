@@ -24,7 +24,7 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def self.scope(user)
-    case user.class.to_s
+    case user.class.name
     when 'Account'
       user.client.accounts
     when 'Client'

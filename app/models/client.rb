@@ -27,6 +27,7 @@ class Client < ApplicationRecord
   validates :email, uniqueness: true
   validates :name, uniqueness: true
   has_many :accounts
+  has_many :courses
 
   def generate_cid
     self.cid = SecureRandom.uuid

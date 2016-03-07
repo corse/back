@@ -19,6 +19,18 @@ class CoursePolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
+    return true if user == record.client
+    user.try :role?, :teacher, record
+  end
+
+  def self.scope(user)
+    case user.class.name
+    when 'Account'
+      user.client.courses
+    when 'Client'
+      user.courses
+    else
+      Course.none
+    end
   end
 end
