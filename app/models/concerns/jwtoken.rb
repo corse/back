@@ -2,6 +2,10 @@
 module Jwtoken
   extend ActiveSupport::Concern
 
+  included do
+    attr_writer :payload
+  end
+
   class_methods do
     def find_by_pw_reset_jwt(token)
       find_by_jwt token

@@ -21,7 +21,6 @@ class Client < ApplicationRecord
   include Rolify
   include Jwtoken
   has_secure_password
-  attr_writer :payload
   before_create :generate_cid
   before_create :generate_secret
   validates :email, uniqueness: true
