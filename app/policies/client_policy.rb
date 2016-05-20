@@ -1,13 +1,12 @@
 # Client Authorization
 class ClientPolicy < ApplicationPolicy
   def initialize(client, record)
-    raise Pundit::NotAuthorizedError unless client.present?
     @client = client
     @record = record
   end
 
   def show?
-    @client.id == record.id || @client.role?(:admin)
+    true
   end
 
   def create?

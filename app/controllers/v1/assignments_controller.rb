@@ -5,7 +5,7 @@ module V1
 
     # GET /v1/assignments
     def index
-      @assignments = Assignment.all
+      @assignments = Assignment.where query_params
 
       render json: @assignments
     end
@@ -42,6 +42,10 @@ module V1
     end
 
     private
+
+    def query_params
+      params.permit(:course_id)
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_resource

@@ -15,6 +15,7 @@ class Account < ApplicationRecord
   include Jwtoken
   include Rolify
   belongs_to :client
+  has_many :courses, through: :client
 
   def self.find_or_create_by_jwt(token)
     secret = Rails.application.secrets['secret_key_base']

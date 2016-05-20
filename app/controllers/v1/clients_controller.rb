@@ -5,8 +5,6 @@ module V1
 
     # GET /v1/clients
     def index
-      raise Pundit::NotAuthorizedError unless current_client.try :role?, :admin
-
       @clients = Client.all
 
       render json: @clients

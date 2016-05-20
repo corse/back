@@ -15,6 +15,22 @@ class Course < ApplicationRecord
   belongs_to :client
   has_many :assignments
   has_many :roles, as: :resource
+  has_many :student_roles,
+           -> { where! name: 'student' },
+           as: :resource,
+           class_name: 'Role'
+  has_many :teacher_roles,
+           -> { where! name: 'teacher' },
+           as: :resource,
+           class_name: 'Role'
+  has_many :students,
+           through: :student_roles,
+           source: 'resource',
+           source_type: 'Account'
+  has_many :teachers,
+           through: :teacher_roles,
+           source: 'resource',
+           source_type: 'Account'
 
   def auth(nonce, account)
     payload = JWT.decode nonce, client.secret, 'HS384'

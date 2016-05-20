@@ -5,7 +5,7 @@ module V1
 
     # GET /v1/solutions
     def index
-      @solutions = Solution.all
+      @solutions = Solution.where query_params
 
       render json: @solutions
     end
@@ -42,6 +42,10 @@ module V1
     end
 
     private
+
+    def query_params
+      params.permit(:assignment_id, :account_id)
+    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_resource

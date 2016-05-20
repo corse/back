@@ -54,7 +54,10 @@ module V1
     end
 
     def check_nonce
-      return true if current_client
+      if current_client
+        @course.client = current_client
+        return true
+      end
       return false unless current_account
       nonce = request.headers['Corse-Nonce']
       @course.auth(nonce, current_account)

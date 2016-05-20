@@ -15,4 +15,6 @@ class CourseSerializer < ActiveModel::Serializer
   attributes :name, :status
   belongs_to :client
   has_many :assignments
+  has_many :students
+  has_many :teachers
 end

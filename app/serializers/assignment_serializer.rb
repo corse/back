@@ -13,7 +13,7 @@
 
 # Assignment JSON API
 class AssignmentSerializer < ActiveModel::Serializer
-  attributes :title, :content
+  attributes :title, :content, :deadline
   belongs_to :course
   has_many :solutions
 end

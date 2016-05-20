@@ -18,4 +18,5 @@
 # Client JSON API
 class ClientSerializer < ActiveModel::Serializer
   attribute :jwt, key: :token
+  attributes :email, :cid, :secret, :name
 end

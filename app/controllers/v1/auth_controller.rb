@@ -82,7 +82,7 @@ module V1
     private
 
     def client_params
-      params.permit(:email, :password, :name)
+      params.permit(:email, :password, :name, :is_institute)
     end
   end
 end
