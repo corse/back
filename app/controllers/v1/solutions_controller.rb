@@ -60,7 +60,7 @@ module V1
     # Only allow a trusted parameter "white list" through.
     def solution_params
       params.fetch(:data, {}).fetch(:attributes, {})
-            .permit(:content)
+            .permit(:content, :grade)
     end
   end
 end

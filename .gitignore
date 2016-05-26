@@ -22,3 +22,8 @@
 
 /config/database.yml
 *.pem
+
+# Capistrano
+config/deploy
+config/deploy.rb
+Capfile

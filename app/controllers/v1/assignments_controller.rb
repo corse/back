@@ -60,7 +60,7 @@ module V1
     # Only allow a trusted parameter "white list" through.
     def assignment_params
       params.fetch(:data, {}).fetch(:attributes, {})
-            .permit(:title)
+            .permit(:title, :deadline, :content)
     end
   end
 end
